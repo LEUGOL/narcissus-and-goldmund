@@ -563,7 +563,32 @@ min-width:0;
  .mini-seat-map-scroll,
  .seat-map-scroll{margin-left:0}
 }
+/* 2층 좌석 배치 */
+.second-floor-map {
+  width: max-content;
+  margin: 0 auto;
+  padding: 12px 0;
+}
 
+.second-floor-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+
+.second-floor-row .row-label {
+  width: 24px;
+  flex: 0 0 24px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.second-floor-row .seat {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+}
 </style>
 </head>
 <body>
