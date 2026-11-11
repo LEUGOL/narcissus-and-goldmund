@@ -1209,6 +1209,41 @@ function makeNSeatRow(targetId){
   target.appendChild(makeSeat("N",n));
  }
 }
+ function makeSecondFloorRows(){
+ const target=document.getElementById("secondFloorSeats");
+ target.innerHTML="";
+
+ const rows=[
+  {name:"O",count:20,offset:2},
+  {name:"P",count:21,offset:1},
+  {name:"Q",count:16,offset:2},
+  {name:"R",count:16,offset:2},
+  {name:"S",count:16,offset:2},
+  {name:"T",count:18,offset:0}
+ ];
+
+ rows.forEach(item=>{
+  const row=document.createElement("div");
+  row.className="second-floor-row";
+
+  const label=document.createElement("span");
+  label.className="row-label";
+  label.textContent=item.name;
+  row.appendChild(label);
+
+  for(let i=0;i<item.offset;i++){
+   const space=document.createElement("span");
+   space.className="seat-gap";
+   row.appendChild(space);
+  }
+
+  for(let n=1;n<=item.count;n++){
+   row.appendChild(makeSecondFloorSeat(item.name,n));
+  }
+
+  target.appendChild(row);
+ });
+}
 function openSeatMap(index){
  currentRecordIndex=index;
  temporarySeats=[...(records[index].seatSelections||[])];
