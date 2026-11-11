@@ -1160,6 +1160,19 @@ function makeSeat(row,number){
  b.addEventListener("click",()=>toggleSeat(id));
  return b;
 }
+ function makeSecondFloorSeat(row,number){
+ const id=`2-${row}-${number}`;
+ const selected=temporarySeats.includes(id);
+ const b=document.createElement("button");
+ b.className="seat"+(selected?" selected":"");
+ b.textContent=selected?"✓":number;
+ b.type="button";
+ b.title=`2층 ${row}열 ${number}번`;
+ b.addEventListener("click",()=>{
+  toggleSeat(id);
+ });
+ return b;
+}
 function makeSeatRows(block,targetId){
  const target=document.getElementById(targetId);
  target.innerHTML="";
