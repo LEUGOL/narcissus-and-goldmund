@@ -703,21 +703,22 @@ min-width:0;
    <span><span class="legend-square" style="background:#D9D5D2"></span>통로</span>
   </div>
   <div class="seat-map-scroll">
-   <div class="seat-map-layout">
+
+   <div id="firstFloorMap" class="seat-map-layout">
     <div class="seat-map">
      <div class="seat-block left"><h3>LEFT</h3><div id="leftSeats"></div></div>
      <div class="seat-block center"><h3>CENTER</h3><div id="centerSeats"></div></div>
      <div class="seat-block right"><h3>RIGHT</h3><div id="rightSeats"></div></div>
     </div>
-  <div id="nSeats" class="seat-n-row"></div>
-  </div>
-  <div id="secondFloorMap" class="second-floor-map" style="display:none;">
-   <div id="secondFloorSeats"></div>
-  </div>
+    <div id="nSeats" class="seat-n-row"></div>
+   </div>
 
    <div id="secondFloorMap" class="second-floor-map" style="display:none;">
     <div id="secondFloorSeats"></div>
    </div>
+
+  </div>
+
   </div>
   <div class="seat-bottom">
    <p>선택한 좌석</p>
@@ -726,8 +727,7 @@ min-width:0;
   </div>
  </div>
 </div>
-<div id="secondFloorMap" class="second-floor-map" style="display:none;">
- <div id="secondFloorSeats"></div>
+
 </div>
 <script>
 const cast = {
@@ -1269,7 +1269,7 @@ function openSeatMap(index){
  updateSelectedSeatText();
 }
  function showFloor(floor){
- const firstFloor=document.querySelector(".seat-map-layout");
+ const firstFloor=document.getElementById("firstFloorMap");
  const secondFloor=document.getElementById("secondFloorMap");
 
  firstFloor.style.display=floor===1?"flex":"none";
