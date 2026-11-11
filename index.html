@@ -1151,6 +1151,61 @@ function createMiniNRow(seatCounts){
  }
  return wrap;
 }
+ /* MY SEATS 2층 좌석표 */
+.mini-second-floor{
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ gap:3px;
+ width:max-content;
+ margin-top:10px;
+ padding-top:8px;
+ border-top:1px solid #DCCBC6;
+ align-self:center;
+}
+
+.mini-second-floor-row{
+ display:flex;
+ align-items:center;
+ gap:2px;
+ min-height:14px;
+ white-space:nowrap;
+}
+
+.mini-second-floor-row .mini-row-label{
+ width:12px;
+ flex:0 0 12px;
+}
+
+.mini-second-floor-row .mini-seat-gap{
+ width:11px;
+ height:13px;
+ flex:0 0 11px;
+}
+
+.mini-second-floor-row .mini-seat{
+ flex:0 0 11px;
+}
+
+@media(max-width:600px){
+ .mini-second-floor-row .mini-row-label{
+  width:10px;
+  flex-basis:10px;
+ }
+
+ .mini-second-floor-row .mini-seat-gap{
+  width:10px;
+  flex-basis:10px;
+  height:12px;
+ }
+
+ .mini-second-floor-row .mini-seat{
+  width:10px;
+  min-width:10px;
+  flex-basis:10px;
+  height:12px;
+ }
+}
 function renderSeatRecords(){
  const target=document.getElementById("seatRecordList");
  target.innerHTML="";
