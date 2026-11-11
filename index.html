@@ -1250,10 +1250,15 @@ function openSeatMap(index){
  const r=records[index];
  document.getElementById("seatPerformance").textContent=`${formatDate(r.date)} ${r.time||""}`;
  document.getElementById("seatModal").classList.add("open");
+
  makeSeatRows("left","leftSeats");
  makeSeatRows("center","centerSeats");
  makeSeatRows("right","rightSeats");
  makeNSeatRow("nSeats");
+
+ makeSecondFloorRows();
+ showFloor(1);
+
  updateSelectedSeatText();
 }
 function toggleSeat(id){
