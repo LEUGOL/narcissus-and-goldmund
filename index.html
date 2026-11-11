@@ -1074,7 +1074,7 @@ function openSeatMap(index){
  const nRowEl=document.getElementById("nSeats");
  if(seatLayoutEl&&seatMapEl&&nRowEl){
   seatLayoutEl.style.width=Math.max(seatMapEl.scrollWidth,nRowEl.scrollWidth)+"px";
-  seatLayoutEl.style.minWidth="0";
+  seatLayoutEl.style.minWidth="100%";
  }
  updateSelectedSeatText();
 }
