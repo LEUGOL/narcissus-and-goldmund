@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NARCISSUS &amp; GOLDMUND</title>
+ <meta name="theme-color" content="#183B32">
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:12px 8px;background:#F5F1E6;color:#26352F;font-family:Arial,sans-serif;font-size:15px}
+.container{width:100%;max-width:1000px;margin:auto}
+header{background:#183B32;color:#F5F1E6;padding:24px 20px;border-radius:10px;margin-bottom:10px}
+header h1{margin:0 0 7px;font-size:24px;letter-spacing:2px}
+header p{margin:0;font-size:14px;opacity:.85}
+section{background:#FBF8EF;border:1px solid #D8D8C8;border-radius:10px;padding:14px;margin-bottom:10px}
+h2{color:#315C4B;margin:0 0 12px;font-size:18px}
+.cast-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.cast-card{background:#E2E8DC;padding:11px;border-radius:8px}
+.cast-card h3{margin:0 0 7px;color:#183B32;font-size:16px}
+.cast-card p{margin:0;line-height:1.6;font-size:14px;white-space:nowrap}
+.stats{display:flex;gap:8px}
+.stat{flex:1;background:#E2E8DC;padding:11px;border-radius:8px;font-size:12px}
+.stat strong{display:block;font-size:27px;color:#315C4B;margin-bottom:2px}
+.actions{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+button,select{font:inherit;border:0;border-radius:6px;padding:10px 12px}
+button{background:#B08A45;color:white;cursor:pointer}
+button.secondary{background:#34483F}
+.actions button{font-size:12px}
+#actorFilter{width:100%;margin-bottom:10px;border:1px solid #C9D2C6;background:#FBF8EF;color:#26352F}
+.table-wrap{width:100%}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th,td{padding:9px 5px;border-bottom:1px solid #D8D8C8;text-align:center;vertical-align:middle}
+th{background:#E2E8DC;color:#183B32;font-size:12px}
+td{font-size:13px;overflow-wrap:anywhere}
+td.cast-cell{text-align:left;line-height:1.65}
+.cast-cell span{display:inline-block;margin-right:7px;white-space:nowrap}
+.cast-role{display:inline-block!important;color:#7C897C;font-size:10px;margin-right:4px}
+.date-main{font-weight:bold;color:#315C4B;font-size:14px}
+ .event-label{
+ display:block;
+ margin-top:3px;
+ color:#B08A45;
+ font-size:10px;
+ font-weight:bold;
+ line-height:1.3;
+ white-space:normal;
+}
+.time-main{font-variant-numeric:tabular-nums;white-space:nowrap}
+.watched-check{width:19px;height:19px;accent-color:#B08A45}
+.seat-button{background:#34483F;font-size:11px;padding:7px 8px;white-space:nowrap}
+.empty-message{text-align:center;padding:20px;color:#7C897C}
+
+/* MY SEATS */
+.seat-record-list{display:grid;gap:18px}
+.seat-record{padding:12px 0 16px;border-bottom:1px solid #D8D8C8}
+.seat-record:last-child{border-bottom:0}
+.seat-record-info{margin-bottom:10px}
+.seat-record-date{font-weight:bold;color:#315C4B;font-size:14px}
+.seat-record-cast{font-size:12px;color:#7C897C;margin-top:4px}
+.no-seats{color:#7C897C;font-size:13px;padding:8px 2px}
+.mini-stage{margin:8px auto 12px;padding:5px;max-width:260px;text-align:center;color:white;background:#183B32;border-radius:4px;font-size:10px;letter-spacing:3px}
+.mini-seat-map{
+ display:flex;
+ justify-content:center;
+ align-items:flex-start;
+ gap:9px;
+ width:100%;
+}
+.mini-seat-block{
+ background:#E2E8DC;
+ padding:7px 5px;
+ border-radius:5px;
+ min-width:0;
+ flex:0 0 auto;
+}
+.mini-seat-block h4{
+ text-align:center;
+ margin:0 0 6px;
+ color:#183B32;
+ font-size:10px;
+}
+.mini-seat-row{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:2px;
+ min-height:14px;
+ margin:2px 0;
+}
+.mini-row-label{
+ width:12px;
+ flex-shrink:0;
+ text-align:center;
+ color:#7C897C;
+ font-size:8px;
+}
+.mini-seat{
+ width:11px;
+ height:13px;
+ min-width:11px;
+ padding:0;
+ margin:0;
+ border:1px solid #D4C4C0;
+ border-radius:2px;
+ background:#FBF8EF;
+ color:#183B32;
+ font-size:8px;
+ line-height:11px;
+ flex-shrink:0;
+}
+.mini-seat.selected{
+ background:#B08A45;
+ border-color:#B08A45;
+ color:white;
+ font-weight:bold;
+}
+.mini-seat-gap,.mini-pillar{
+ width:11px;
+ height:13px;
+ flex-shrink:0;
+}
+.mini-pillar{border:1px dashed #B9AAA5;border-radius:2px;background:#D9D5D2}
+.mini-legend{text-align:center;font-size:10px;color:#7C897C;margin-top:8px}
+.mini-legend-mark{display:inline-block;width:10px;height:10px;background:#B08A45;border-radius:2px;vertical-align:middle;margin-right:4px}
+
+/* 좌석 선택 창 */
+.seat-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(30,20,25,.72);padding:8px;overflow-y:auto}
+.seat-modal.open{display:flex;justify-content:center;align-items:flex-start}
+.seat-window{width:100%;max-width:1000px;margin:8px auto;padding:16px;background:#FBF8EF;border-radius:10px}
+.seat-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.seat-top h2{margin-bottom:5px}
+#seatPerformance{font-size:13px;color:#7C897C;margin:0}
+.stage{margin:14px auto;padding:10px;max-width:400px;text-align:center;color:white;background:#183B32;border-radius:5px;letter-spacing:4px}
+.seat-legend{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:13px;font-size:12px}
+.legend-square{display:inline-block;width:15px;height:15px;border:1px solid #D4C4C0;border-radius:3px;vertical-align:middle;margin-right:4px;background:#E2E8DC}
+.legend-square.selected{background:#B08A45}
+.seat-map{display:flex;justify-content:center;align-items:flex-start;gap:8px;width:100%}
+.seat-block{background:#E2E8DC;padding:9px 5px;border-radius:8px;min-width:0}
+.seat-block h3{text-align:center;margin:0 0 9px;color:#183B32;font-size:13px}
+.seat-row{display:flex;align-items:center;justify-content:center;gap:2px;min-height:25px;margin:3px 0}
+.row-label{width:18px;flex-shrink:0;text-align:center;color:#7C897C;font-size:10px}
+.seat{width:22px;height:23px;min-width:22px;padding:0;margin:0;border:1px solid #D4C4C0;border-radius:4px;background:#FBF8EF;color:#183B32;font-size:10px;line-height:21px;flex-shrink:0}
+.seat.selected{background:#B08A45;border-color:#B08A45;color:white;font-weight:bold}
+.seat-gap,.pillar{width:22px;height:23px;flex-shrink:0}
+.pillar{border:1px dashed #B9AAA5;border-radius:3px;background:#D9D5D2}
+.seat-bottom{margin-top:16px;padding-top:13px;border-top:1px solid #D8D8C8}
+#selectedSeatText{color:#315C4B;font-weight:bold;font-size:13px;line-height:1.8;overflow-wrap:anywhere;margin:8px 0 12px}
+.seat-bottom button{margin:3px}
+
+@media(max-width:600px){
+ body{padding:4px 3px}
+ header{padding:16px 12px;margin-bottom:7px;border-radius:8px}
+ header h1{font-size:18px;letter-spacing:1.5px}
+ header p{font-size:11px}
+ section{padding:9px 7px;margin-bottom:7px;border-radius:8px}
+ h2{font-size:15px;margin:0 0 9px}
+ .cast-grid{gap:4px}
+ .cast-card{padding:8px 5px}
+ .cast-card h3{font-size:13px;margin-bottom:5px}
+.cast-card p{font-size:12px;line-height:1.6;letter-spacing:-.4px}
+ .stats{gap:5px}
+.stat{padding:9px 7px;font-size:12px}
+.stat strong{font-size:23px}
+ .actions{gap:4px;margin-bottom:8px}
+ .actions button{font-size:12px;padding:8px 8px}
+ th{
+ font-size:10px;
+ padding:6px 1px;
+ white-space:nowrap;
+}
+td{
+ font-size:11px;
+ padding:7px 1px;
+ text-align:center;
+}
+
+ /* 작품별 배역 정보는 추후 입력 */
+ td:nth-child(3),
+td:nth-child(4),
+td:nth-child(5){
+ font-size:11px;
+ white-space:nowrap;
+ letter-spacing:-.7px;
+}
+
+ .date-main{
+ font-size:11px;
+ white-space:nowrap;
+}
+.time-main{
+ font-size:11px;
+ white-space:nowrap;
+}
+
+ .watched-check{
+  width:14px;
+  height:14px;
+ }
+
+ .seat-button{
+  font-size:8px;
+  padding:5px 3px;
+  white-space:nowrap;
+ }
+  th:nth-child(1){width:17%}
+ th:nth-child(2){width:11%}
+ th:nth-child(3){width:17%}
+ th:nth-child(4){width:17%}
+ th:nth-child(5){width:17%}
+ th:nth-child(6){width:8%}
+ th:nth-child(7){width:13%}
+ .seat-record{padding:10px 0 13px}
+ .seat-record-date{font-size:12px}
+ .seat-record-cast{font-size:10px}
+ .mini-seat-map{gap:4px}
+ .mini-seat-block{padding:6px 3px;border-radius:4px}
+ .mini-seat-block h4{font-size:9px;margin-bottom:5px}
+ .mini-seat-row{gap:2px;min-height:13px;margin:2px 0}
+ .mini-row-label{width:10px;font-size:7px}
+ .mini-seat{width:10px;min-width:10px;height:12px;font-size:7px;line-height:10px;border-radius:2px}
+ .mini-seat-gap,.mini-pillar{width:10px;height:12px}
+ .mini-stage{font-size:9px;margin:7px auto 9px}
+ .mini-legend{font-size:9px}
+ .seat-modal{padding:3px}
+ .seat-window{padding:10px 3px;margin:3px auto;border-radius:8px}
+ .seat-top{padding:0 5px}
+ .seat-top h2{font-size:15px}
+ #seatPerformance{font-size:10px}
+ .seat-top button{font-size:10px;padding:6px 9px}
+ .stage{margin:9px auto;padding:7px;font-size:11px;max-width:75%}
+ .seat-legend{gap:7px;font-size:10px;margin-bottom:8px}
+ .legend-square{width:12px;height:12px}
+ .seat-map{gap:2px;justify-content:center}
+ .seat-block{flex:0 0 auto;padding:5px 1px;border-radius:5px}
+ .seat-block h3{font-size:9px;margin-bottom:6px;white-space:nowrap}
+ .seat-row{gap:1px;min-height:16px;margin:2px 0}
+ .row-label{width:11px;font-size:8px}
+ .seat{width:12px;min-width:12px;height:15px;font-size:7px;line-height:13px;border-radius:2px;padding:0}
+ .seat-gap,.pillar{width:12px;height:15px}
+ .seat-bottom{margin-top:10px;padding:9px 5px 0}
+ .seat-bottom p{font-size:12px}
+ #selectedSeatText{font-size:11px}
+ .seat-bottom button{font-size:10px;padding:7px 9px}
+ .actor-count-list{gap:4px}
+ .actor-count-card{padding:8px 5px}
+.actor-count-card h3{font-size:12px;margin-bottom:5px}
+.actor-count-person{font-size:11px;padding:6px 0}
+.actor-count-number{font-size:11px}
+}
+
+/* MY ACTOR COUNT */
+.actor-count-list{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:8px;
+}
+.actor-count-card{
+ background:#E2E8DC;
+ padding:11px;
+ border-radius:8px;
+}
+.actor-count-card h3{
+ margin:0 0 8px;
+ color:#183B32;
+ font-size:14px;
+}
+.actor-count-person{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:4px;
+ padding:5px 0;
+ border-bottom:1px solid #D8D8C8;
+ font-size:13px;
+}
+.actor-count-person:last-child{border-bottom:0}
+.actor-count-number{
+ color:#315C4B;
+ font-weight:bold;
+ white-space:nowrap;
+}
+@media(max-width:600px){
+ .actor-count-list{gap:5px}
+ .actor-count-card{padding:9px 6px}
+ .actor-count-card h3{font-size:14px;margin-bottom:7px}
+ .actor-count-person{font-size:12px;padding:7px 0}
+ .actor-count-number{font-size:12px}
+}
+ 
+/* DEEP WINE + INK + NAVY THEME */
+body{background:#F5F1E6;color:#26352F}
+header{background:#183B32;color:#F5F1E6}
+section,.seat-window{background:#FFF9F5;border-color:#DCCBC6}
+h2,.cast-card h3,.stat strong,.date-main,
+.seat-record-date,.mini-seat-block h4,.seat-block h3,
+#selectedSeatText,.actor-count-card h3,.actor-count-number{
+ color:#183B32
+}
+.cast-card,.stat,.mini-seat-block,.seat-block{
+ background:#F0E3DF
+}
+button{background:#B08A45;color:white}
+button.secondary,.seat-button{background:#34483F;color:white}
+#actorFilter{border-color:#DCCBC6;background:#FFF9F5;color:#26352F}
+th{background:#E2E8DC;color:#183B32}
+th,td,.seat-record,.seat-bottom{border-color:#DCCBC6}
+.cast-role,.seat-record-cast,.no-seats,.mini-row-label,
+.mini-legend,.row-label,#seatPerformance,.empty-message{
+ color:#7C897C
+}
+.watched-check{accent-color:#B08A45}
+.mini-stage,.stage{background:#34483F;color:white}
+.mini-seat,.seat{
+ background:#FFF9F5;color:#183B32;border-color:#CDBBB7
+}
+.mini-seat.selected,.seat.selected,.legend-square.selected,
+.mini-legend-mark{
+ background:#B08A45;border-color:#B08A45;color:white
+}
+.mini-pillar,.pillar{
+ background:#D8D0CE;border-color:#AFA2A1
+}
+.seat-modal{background:rgba(22,17,25,.75)}
+.legend-square[style]{background:#D8D0CE!important}
+
+/* MY NOTES */
+.notes-intro{
+ color:#7C897C;font-size:12px;line-height:1.6;margin:0 0 14px
+}
+.notes-editor{
+ background:#F5F1E6;border:1px solid #DCCBC6;
+ border-radius:8px;padding:12px;margin-bottom:16px
+}
+.notes-editor label{
+ display:block;color:#183B32;font-size:12px;
+ font-weight:bold;margin:12px 0 6px
+}
+.notes-editor label:first-child{margin-top:0}
+.notes-editor select,.notes-editor textarea{
+ width:100%;border:1px solid #DCCBC6;
+ border-radius:6px;background:#FFF9F5;color:#26352F;
+ padding:10px;font:inherit;font-size:13px
+}
+.notes-editor textarea{
+ resize:vertical;line-height:1.7;min-height:75px
+}
+.notes-editor textarea:focus,.notes-editor select:focus{
+ outline:2px solid #B08A45;outline-offset:1px
+}
+.notes-save{
+ width:100%;margin-top:12px;padding:10px;
+ background:#183B32;color:white
+}
+.notes-list{display:grid;gap:10px}
+.note-card{
+ background:#FFF9F5;border:1px solid #DCCBC6;
+ border-radius:8px;padding:12px
+}
+.note-date{font-size:12px;color:#7C897C;margin-bottom:5px}
+.note-title{font-size:14px;font-weight:bold;color:#183B32}
+.note-cast{font-size:11px;color:#7C897C;margin-top:5px}
+.note-content{
+ font-size:13px;line-height:1.8;white-space:pre-wrap;
+ overflow-wrap:anywhere;margin-top:10px
+}
+.note-label{font-size:11px;font-weight:bold;color:#B08A45;margin-top:10px}
+.note-actions{display:flex;gap:6px;margin-top:12px}
+.note-actions button{font-size:11px;padding:7px 12px}
+.note-empty{
+ color:#7C897C;text-align:center;padding:18px 5px;
+ font-size:12px;line-height:1.7
+}
+/* 공연 일정만 스크롤 */
+.schedule-scroll{
+ height:350px;
+ overflow-y:auto;
+ overflow-x:auto;
+ position:relative;
+ -webkit-overflow-scrolling:touch;
+}
+
+.schedule-scroll thead th{
+ position:sticky;
+ top:0;
+ z-index:2;
+}
+ /* 관극 별점 */
+.rating-stars{
+ display:flex;
+ justify-content:center;
+ gap:0;
+ white-space:nowrap;
+ margin-top:4px;
+}
+.rating-star{
+ border:0;
+ background:transparent;
+ color:#B5A77F;
+ font-size:20px;
+ line-height:1;
+ padding:2px 0;
+ cursor:pointer;
+}
+ .rating-star.selected{
+ color:#C69A42;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+ <h1>NARCISSUS &amp; GOLDMUND</h1>
+ <p>나르치스와 골드문트</p>
+</header>
+
+<section>
+ <h2>CAST MEMBERS</h2>
+ <div class="cast-grid">
+  <div class="cast-card"><h3>배역 1</h3><p>출연 배우 정보 입력 예정</p></div>
+  <div class="cast-card"><h3>배역 2</h3><p>출연 배우 정보 입력 예정</p></div>
+  <div class="cast-card"><h3>배역 3</h3><p>출연 배우 정보 입력 예정</p></div>
+ </div>
+</section>
+
+<section>
+ <h2>MY RECORD</h2>
+ <div class="stats">
+  <div class="stat"><strong id="totalCount">0</strong>전체 공연 기록</div>
+  <div class="stat"><strong id="watchedCount">0</strong>나의 관극 횟수</div>
+ </div>
+</section>
+<section>
+ <h2>MY ACTOR COUNT</h2>
+ <div id="actorCountList" class="actor-count-list"></div>
+</section>
+<section>
+ <h2>PERFORMANCE SCHEDULE</h2>
+ <div class="actions">
+  <button class="secondary" onclick="exportData()">기록 저장</button>
+  <button class="secondary" onclick="document.getElementById('importFile').click()">기록 불러오기</button>
+  <input id="importFile" type="file" accept=".json" hidden onchange="importData(event)">
+ </div>
+ <select id="actorFilter" onchange="render()"><option value="">전체 배우 보기</option></select>
+ <div class="table-wrap">
+ <div class="schedule-scroll">
+ <table>
+  <thead>
+   <tr>
+    <th>날짜</th>
+    <th>시간</th>
+    <th>배역 1</th>
+    <th>배역 2</th>
+    <th>배역 3</th>
+    <th>관극</th>
+<th>좌석</th>
+   </tr>
+  </thead>
+  <tbody id="scheduleBody"></tbody>
+ </table>
+</div>
+ </div>
+</section>
+
+<section>
+ <h2>MY SEATS</h2>
+ <div id="seatRecordList" class="seat-record-list"></div>
+</section>
+ 
+<section>
+ <h2>MY NOTES</h2>
+ <p class="notes-intro">
+  공연이 끝난 뒤, 오래 기억하고 싶은 순간들을 기록하는 나만의 공간
+ </p>
+
+ <div class="notes-editor">
+  <label for="notePerformance">관람한 공연</label>
+  <select id="notePerformance" onchange="loadNoteForPerformance()">
+   <option value="">관극한 공연을 선택해 주세요.</option>
+  </select>
+
+  <label>오늘의 별점</label>
+<div id="noteRating" class="rating-stars">
+ <button type="button" class="rating-star" onclick="selectNoteRating(1)">☆</button>
+ <button type="button" class="rating-star" onclick="selectNoteRating(2)">☆</button>
+ <button type="button" class="rating-star" onclick="selectNoteRating(3)">☆</button>
+ <button type="button" class="rating-star" onclick="selectNoteRating(4)">☆</button>
+ <button type="button" class="rating-star" onclick="selectNoteRating(5)">☆</button>
+</div>
+
+<label for="noteScene">기억하고 싶은 장면</label>
+  <textarea id="noteScene" placeholder="오늘 가장 기억에 남았던 장면은?"></textarea>
+
+  <label for="noteMemo">오늘의 감상</label>
+  <textarea id="noteMemo" rows="5" placeholder="배우의 표정, 대사, 무대, 감정 등 자유롭게 기록해 보세요."></textarea>
+
+  <button class="notes-save" onclick="saveNote()">감상 기록 저장</button>
+ </div>
+
+ <div id="noteList" class="notes-list"></div>
+</section>
+
+</div>
+
+<div class="seat-modal" id="seatModal">
+ <div class="seat-window">
+  <div class="seat-top">
+   <div><h2>MY SEAT</h2><p id="seatPerformance"></p></div>
+   <button class="secondary" onclick="closeSeatMap()">닫기</button>
+  </div>
+  <div class="stage">STAGE</div>
+  <div class="seat-legend">
+   <span><span class="legend-square"></span>선택 가능</span>
+   <span><span class="legend-square selected"></span>내 좌석</span>
+   <span><span class="legend-square" style="background:#D9D5D2"></span>기둥</span>
+  </div>
+  <div class="seat-map">
+   <div class="seat-block"><h3>LEFT</h3><div id="leftSeats"></div></div>
+   <div class="seat-block"><h3>CENTER</h3><div id="centerSeats"></div></div>
+   <div class="seat-block"><h3>RIGHT</h3><div id="rightSeats"></div></div>
+  </div>
+  <div class="seat-bottom">
+   <p>선택한 좌석</p>
+   <div id="selectedSeatText">선택한 좌석이 없습니다.</div>
+   <button class="secondary" onclick="clearSeats()">선택 초기화</button>
+  </div>
+ </div>
+</div>
+
+<script>
+const cast = {
+ dazai:[],
+ ango:[],
+ shizuko:[]
+};
+
+let records=[];
+try{
+ records=JSON.parse(localStorage.getItem("nargold_records")||"[]");
+ if(!Array.isArray(records))records=[];
+}catch(e){records=[];}
+ 
+let notes=[];
+try{
+ notes=JSON.parse(localStorage.getItem("nargold_notes")||"[]");
+ if(!Array.isArray(notes))notes=[];
+}catch(e){notes=[];}
+let ratings={};
+try{
+ ratings=JSON.parse(localStorage.getItem("nargold_ratings")||"{}");
+}catch(e){ratings={};}
+ 
+const newSchedule=[]; // 실제 공연 일정이 확정되면 여기에 추가합니다.
+
+newSchedule.forEach(item=>{
+ const existing=records.find(r=>r.date===item.date&&r.time===item.time);
+ if(existing){
+  ["dazai","ango","shizuko"].forEach(key=>{if(!existing[key])existing[key]=item[key];});
+ }else{
+  records.push({...item,watched:false,seat:"",seatSelections:[]});
+ }
+});
+records.forEach(r=>{if(!Array.isArray(r.seatSelections))r.seatSelections=[];});
+
+function save(){
+ localStorage.setItem("nargold_records",JSON.stringify(records));
+ updateStats();
+}
+function saveRatings(){
+ localStorage.setItem("nargold_ratings",JSON.stringify(ratings));
+}
+ function ratingKey(r){
+ return `${r.date}_${r.time}`;
+}
+ function setRating(r, score){
+ const key=ratingKey(r);
+
+ if(score===0){
+  delete ratings[key];
+ }else{
+  ratings[key]=score;
+ }
+
+ saveRatings();
+}
+ let noteRating=0;
+
+function selectNoteRating(score){
+ noteRating=score;
+
+ const stars=document.querySelectorAll("#noteRating .rating-star");
+
+ stars.forEach((star,index)=>{
+  star.textContent=index<score?"★":"☆";
+  star.classList.toggle("selected",index<score);
+ });
+}
+ function createRatingStars(r){
+ const wrapper=document.createElement("div");
+ wrapper.className="rating-stars";
+
+ const key=ratingKey(r);
+ const current=ratings[key]||0;
+
+ for(let i=1;i<=5;i++){
+  const star=document.createElement("button");
+  star.type="button";
+  star.className="rating-star";
+  star.textContent=i<=current?"★":"☆";
+
+  star.addEventListener("click",()=>{
+   setRating(r,i);
+   render();
+  });
+
+  wrapper.appendChild(star);
+ }
+
+ return wrapper;
+}
+function formatDate(value){
+ if(!value)return "날짜 미정";
+ const p=value.split("-");
+ if(p.length!==3)return value;
+ const d=new Date(Number(p[0]),Number(p[1])-1,Number(p[2]));
+ return `${Number(p[1])}.${Number(p[2])} (${["일","월","화","수","목","금","토"][d.getDay()]})`;
+}
+
+function blockName(block){
+ return {left:"왼쪽",center:"가운데",right:"오른쪽"}[block];
+}
+
+const seatLayout={
+ left:[4,4,4,4,2,3,4,4,4,4,4,4,4,3],
+ center:[11,10,11,10,11,10,11,11,11,11,11,11,10,8],
+ right:[4,4,4,4,4,4,4,4,4,4,4,4,4,4]
+};
+
+function seatLayoutValue(block,row,local){
+ const index=row-1;
+ let n=local;
+ if(block==="center"||block==="right")n+=seatLayout.left[index];
+ if(block==="right")n+=seatLayout.center[index];
+ return n;
+}
+
+function seatDescription(id){
+ const [block,row,local]=id.split("-");
+ return `${blockName(block)} ${row}열 ${seatLayoutValue(block,Number(row),Number(local))}번`;
+}
+const events = [
+ {date:"2026-12-11",name:"스페셜 커튼콜"}
+];
+ 
+function render(){
+ const body=document.getElementById("scheduleBody");
+ const filter=document.getElementById("actorFilter").value;
+ body.innerHTML="";
+ let shown=0;
+
+ records.forEach((r,i)=>{
+  const actors=[r.dazai,r.ango,r.shizuko];
+  if(filter&&!actors.includes(filter))return;
+  shown++;
+
+  const tr=document.createElement("tr");
+
+  const date=document.createElement("td");
+  const dayEvents=events.filter(event=>event.date===r.date);
+
+date.innerHTML=`
+ <span class="date-main">${formatDate(r.date)}</span>
+ ${dayEvents.map(event=>`<span class="event-label">${event.name}</span>`).join("")}
+`;
+
+  const time=document.createElement("td");
+  time.innerHTML=`<span class="time-main">${r.time||"-"}</span>`;
+
+  const dazai=document.createElement("td");
+  dazai.textContent=r.dazai||"-";
+
+  const ango=document.createElement("td");
+  ango.textContent=r.ango||"-";
+
+  const shizuko=document.createElement("td");
+  shizuko.textContent=r.shizuko||"-";
+
+  const watched=document.createElement("td");
+
+  const check=document.createElement("input");
+  check.type="checkbox";
+  check.className="watched-check";
+  check.checked=!!r.watched;
+  check.setAttribute("aria-label","관극 여부");
+  check.addEventListener("change",()=>{
+   records[i].watched=check.checked;
+   save();
+  });
+  watched.appendChild(check);
+
+  const seat=document.createElement("td");
+  const seatButton=document.createElement("button");
+  seatButton.className="seat-button";
+  seatButton.textContent="좌석 선택";
+  seatButton.addEventListener("click",()=>openSeatMap(i));
+  seat.appendChild(seatButton);
+
+[date,time,dazai,ango,shizuko,watched,seat]
+ .forEach(td=>tr.appendChild(td));
+
+  body.appendChild(tr);
+ });
+
+ if(!shown){
+  const tr=document.createElement("tr");
+  const td=document.createElement("td");
+  td.colSpan=8;
+  td.className="empty-message";
+  td.textContent="표시할 공연 일정이 없습니다.";
+  tr.appendChild(td);
+  body.appendChild(tr);
+ }
+
+ updateStats();
+ renderSeatRecords();
+ renderNotes();
+}
+function saveNote(){
+ const index=document.getElementById("notePerformance").value;
+
+ if(index==="")return;
+
+ const r=records[index];
+ const key=ratingKey(r);
+
+ if(noteRating>0){
+  ratings[key]=noteRating;
+  saveRatings();
+ }
+
+ const scene=document.getElementById("noteScene").value;
+ const memo=document.getElementById("noteMemo").value;
+
+ if(scene.trim()||memo.trim()){
+  const existing=notes.findIndex(n=>n.recordKey===key);
+  const note={recordKey:key,scene,memo};
+
+  if(existing>=0){
+   notes[existing]=note;
+  }else{
+   notes.push(note);
+  }
+
+  localStorage.setItem("nargold_notes",JSON.stringify(notes));
+ }
+
+ renderNotes();
+}
+
+function loadNoteForPerformance(){
+ const index=document.getElementById("notePerformance").value;
+
+ const scene=document.getElementById("noteScene");
+ const memo=document.getElementById("noteMemo");
+
+ if(index===""){
+  noteRating=0;
+  scene.value="";
+  memo.value="";
+ }else{
+  const r=records[index];
+  const key=ratingKey(r);
+
+  noteRating=ratings[key]||0;
+
+  const note=notes.find(n=>n.recordKey===key);
+
+  scene.value=note?note.scene:"";
+  memo.value=note?note.memo:"";
+ }
+
+ selectNoteRating(noteRating);
+}
+
+function deleteNote(key){
+ if(!confirm("이 관극 기록과 별점을 삭제할까요?"))return;
+
+ notes=notes.filter(n=>n.recordKey!==key);
+ delete ratings[key];
+
+ localStorage.setItem("nargold_notes",JSON.stringify(notes));
+ saveRatings();
+
+ renderNotes();
+ loadNoteForPerformance();
+}
+ 
+function updateStats(){
+ document.getElementById("totalCount").textContent=records.length;
+ document.getElementById("watchedCount").textContent=records.filter(r=>r.watched).length;
+
+ renderActorCounts();
+}
+
+function renderActorCounts(){
+ const target=document.getElementById("actorCountList");
+ if(!target)return;
+
+ target.innerHTML="";
+
+ const roles=[
+  {title:"배역 1",key:"dazai"},
+  {title:"배역 2",key:"ango"},
+  {title:"배역 3",key:"shizuko"}
+ ];
+
+ roles.forEach(role=>{
+  const card=document.createElement("div");
+  card.className="actor-count-card";
+
+  const heading=document.createElement("h3");
+  heading.textContent=role.title;
+  card.appendChild(heading);
+
+  cast[role.key].forEach(actor=>{
+  const total=records.filter(r=>
+    r[role.key]===actor
+   ).length;
+
+   const count=records.filter(r=>
+    r.watched===true && r[role.key]===actor
+   ).length;
+
+   const person=document.createElement("div");
+   person.className="actor-count-person";
+
+   const name=document.createElement("span");
+   name.textContent=actor;
+
+   const number=document.createElement("span");
+   number.className="actor-count-number";
+  number.textContent=count+"/"+total;
+
+   person.append(name,number);
+   card.appendChild(person);
+  });
+
+  target.appendChild(card);
+ });
+}
+
+function setupFilter(){
+ const select=document.getElementById("actorFilter");
+ const names=[...cast.dazai,...cast.ango,...cast.shizuko];
+ select.innerHTML='<option value="">전체 배우 보기</option>'+names.map(n=>`<option value="${n}">${n}</option>`).join("");
+}
+
+/* MY SEATS 좌석표 만들기 */
+function createMiniSeat(block,row,local,seatCounts){
+ const id=seatId(block,row,local);
+ const count=seatCounts[id]||0;
+
+ const seat=document.createElement("div");
+ seat.className="mini-seat"+(count>0?" selected":"");
+ seat.textContent=count>0?`✓${count}`:"";
+ seat.title=seatDescription(id)+(count>0?` · ${count}회`:"");
+
+ return seat;
+}
+
+function createMiniPillar(){
+ const p=document.createElement("span");
+ p.className="mini-pillar";
+ return p;
+}
+
+function createMiniGap(){
+ const g=document.createElement("span");
+ g.className="mini-seat-gap";
+ return g;
+}
+
+function createMiniSeatRows(block,seatCounts){
+ const wrapper=document.createElement("div");
+ wrapper.className="mini-seat-block";
+
+ const heading=document.createElement("h4");
+ heading.textContent=block==="left"?"LEFT":block==="center"?"CENTER":"RIGHT";
+ wrapper.appendChild(heading);
+
+ seatLayout[block].forEach((count,index)=>{
+  const rowNumber=index+1;
+  const row=document.createElement("div");
+  row.className="mini-seat-row";
+
+  const label=document.createElement("span");
+  label.className="mini-row-label";
+  label.textContent=rowNumber;
+  row.appendChild(label);
+
+  if(block==="left"&&rowNumber===5){
+   row.append(createMiniPillar(),createMiniPillar());
+  }
+  if(block==="left"&&rowNumber===6){
+   row.appendChild(createMiniPillar());
+  }
+  if(block==="center"&&rowNumber===14){
+   for(let i=0;i<4;i++)row.appendChild(createMiniGap());
+  }
+
+  for(let n=1;n<=count;n++){
+   row.appendChild(createMiniSeat(block,rowNumber,n,seatCounts));
+  }
+
+  wrapper.appendChild(row);
+ });
+
+ return wrapper;
+}
+
+function renderSeatRecords(){
+ const target=document.getElementById("seatRecordList");
+ target.innerHTML="";
+
+ // 공연별 좌석 선택 횟수 합산
+ const seatCounts={};
+
+ records.forEach(r=>{
+  const seats=Array.isArray(r.seatSelections)?r.seatSelections:[];
+
+  seats.forEach(id=>{
+   seatCounts[id]=(seatCounts[id]||0)+1;
+  });
+ });
+
+ // 무대 표시
+ const stage=document.createElement("div");
+ stage.className="mini-stage";
+ stage.textContent="STAGE";
+
+ // 전체 좌석표 하나 만들기
+ const map=document.createElement("div");
+ map.className="mini-seat-map";
+
+ map.append(
+  createMiniSeatRows("left",seatCounts),
+  createMiniSeatRows("center",seatCounts),
+  createMiniSeatRows("right",seatCounts)
+ );
+
+ // 안내 문구
+ const legend=document.createElement("div");
+ legend.className="mini-legend";
+ legend.textContent="체크 표시 옆 숫자는 해당 좌석에 앉은 횟수";
+
+ target.append(stage,map,legend);
+}
+
+/* 좌석 선택 */
+let currentRecordIndex=null;
+let temporarySeats=[];
+
+function seatId(block,row,local){
+ return `${block}-${row}-${local}`;
+}
+
+function globalSeatNumber(block,row,local){
+ return seatLayoutValue(block,row,local);
+}
+
+function makeSeat(block,row,local){
+ const id=seatId(block,row,local);
+ const selected=temporarySeats.includes(id);
+
+ const b=document.createElement("button");
+ b.className="seat"+(selected?" selected":"");
+ b.textContent=selected?"✓":globalSeatNumber(block,row,local);
+ b.type="button";
+ b.title=`${row}열 ${globalSeatNumber(block,row,local)}번`;
+ b.addEventListener("click",()=>toggleSeat(id));
+
+ return b;
+}
+
+function makeSeatRows(block,targetId){
+ const target=document.getElementById(targetId);
+ target.innerHTML="";
+
+ seatLayout[block].forEach((count,index)=>{
+  const rowNumber=index+1;
+  const row=document.createElement("div");
+  row.className="seat-row";
+
+  const label=document.createElement("span");
+  label.className="row-label";
+  label.textContent=rowNumber;
+  row.appendChild(label);
+
+  if(block==="left"&&rowNumber===5){
+   row.append(makePillar(),makePillar());
+  }
+  if(block==="left"&&rowNumber===6){
+   row.appendChild(makePillar());
+  }
+  if(block==="center"&&rowNumber===14){
+   for(let i=0;i<4;i++)row.appendChild(makeGap());
+  }
+
+  for(let n=1;n<=count;n++){
+   row.appendChild(makeSeat(block,rowNumber,n));
+  }
+
+  target.appendChild(row);
+ });
+}
+
+function makePillar(){
+ const p=document.createElement("span");
+ p.className="pillar";
+ p.title="기둥";
+ return p;
+}
+
+function makeGap(){
+ const g=document.createElement("span");
+ g.className="seat-gap";
+ return g;
+}
+
+function openSeatMap(index){
+ currentRecordIndex=index;
+ temporarySeats=[...(records[index].seatSelections||[])];
+
+ const r=records[index];
+ document.getElementById("seatPerformance").textContent=
+  `${formatDate(r.date)} ${r.time||""}`;
+
+ document.getElementById("seatModal").classList.add("open");
+
+ makeSeatRows("left","leftSeats");
+ makeSeatRows("center","centerSeats");
+ makeSeatRows("right","rightSeats");
+
+ updateSelectedSeatText();
+}
+
+function toggleSeat(id){
+ temporarySeats=temporarySeats.includes(id)
+  ?temporarySeats.filter(x=>x!==id)
+  :[...temporarySeats,id];
+
+ /* 누를 때마다 즉시 저장 */
+ saveCurrentSeats();
+
+ makeSeatRows("left","leftSeats");
+ makeSeatRows("center","centerSeats");
+ makeSeatRows("right","rightSeats");
+
+ updateSelectedSeatText();
+ renderSeatRecords();
+}
+
+function saveCurrentSeats(){
+ if(currentRecordIndex===null)return;
+
+ records[currentRecordIndex].seatSelections=[...temporarySeats];
+ records[currentRecordIndex].seat=
+  temporarySeats.map(seatDescription).join(", ");
+
+ save();
+}
+
+function updateSelectedSeatText(){
+ const target=document.getElementById("selectedSeatText");
+
+ target.textContent=temporarySeats.length
+  ?temporarySeats.map(seatDescription).join(" / ")
+  :"선택한 좌석이 없습니다.";
+}
+
+function clearSeats(){
+ temporarySeats=[];
+ saveCurrentSeats();
+
+ makeSeatRows("left","leftSeats");
+ makeSeatRows("center","centerSeats");
+ makeSeatRows("right","rightSeats");
+
+ updateSelectedSeatText();
+ renderSeatRecords();
+}
+/* MY NOTES 목록 불러오기 */
+
+function renderNotes(){
+ const select=document.getElementById("notePerformance");
+ const list=document.getElementById("noteList");
+
+ if(!select||!list)return;
+
+ select.innerHTML=
+  '<option value="">관극한 공연을 선택해 주세요.</option>';
+
+ records.forEach((r,index)=>{
+  if(!r.watched)return;
+
+  const option=document.createElement("option");
+  option.value=index;
+  option.textContent=
+ `${formatDate(r.date)} ${r.time||""} · 배역 1 ${r.dazai||"-"} / 배역 2 ${r.ango||"-"} / 배역 3 ${r.shizuko||"-"}`;
+
+  select.appendChild(option);
+ });
+
+ const savedRecords=records.filter(r=>{
+  const key=ratingKey(r);
+  return notes.some(n=>n.recordKey===key) || ratings[key];
+ });
+
+ if(savedRecords.length===0){
+  list.innerHTML=
+   '<div class="note-empty">아직 작성한 감상 기록이 없습니다.<br>첫 번째 관극 일기를 남겨보세요.</div>';
+  return;
+ }
+
+ list.innerHTML="";
+
+ savedRecords.forEach(r=>{
+  const key=ratingKey(r);
+  const note=notes.find(n=>n.recordKey===key);
+  const score=ratings[key]||0;
+
+  const item=document.createElement("div");
+  item.className="note-item";
+
+  item.innerHTML=`
+   <h3>${formatDate(r.date)} ${r.time||""}</h3>
+   <p>배역 1 ${r.dazai||"-"} / 배역 2 ${r.ango||"-"} / 배역 3 ${r.shizuko||"-"}</p>
+   <p class="note-stars">${"★".repeat(score)}${"☆".repeat(5-score)}</p>
+   ${note?.scene?`<p><strong>기억하고 싶은 장면</strong><br>${note.scene}</p>`:""}
+   ${note?.memo?`<p><strong>오늘의 감상</strong><br>${note.memo}</p>`:""}
+  `;
+const deleteButton=document.createElement("button");
+  deleteButton.textContent="기록 삭제";
+  deleteButton.className="secondary";
+  deleteButton.onclick=()=>deleteNote(key);
+
+  item.appendChild(deleteButton);
+  list.appendChild(item);
+ });
+ }
+function closeSeatMap(){
+ document.getElementById("seatModal").classList.remove("open");
+ currentRecordIndex=null;
+}
+
+/* 기록 저장 및 불러오기 */
+
+/* 기록 저장 및 불러오기 */
+
+function exportData(){
+ const payload={
+  version:2,
+  records:records,
+  notes:notes
+ };
+
+ const blob=new Blob(
+  [JSON.stringify(payload,null,2)],
+  {type:"application/json"}
+ );
+
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;
+ a.download="no-longer-human-records.json";
+ a.click();
+ URL.revokeObjectURL(url);
+}
+
+function importData(event){
+ const file=event.target.files[0];
+ if(!file)return;
+
+ const reader=new FileReader();
+
+ reader.onload=()=>{
+  try{
+   const data=JSON.parse(reader.result);
+
+   if(Array.isArray(data)){
+    records=data;
+    notes=[];
+   }else if(data&&Array.isArray(data.records)){
+    records=data.records;
+    notes=Array.isArray(data.notes)?data.notes:[];
+   }else{
+    throw new Error();
+   }
+
+   records.forEach(r=>{
+    if(!Array.isArray(r.seatSelections)){
+     r.seatSelections=[];
+    }
+   });
+
+   localStorage.setItem("nargold_notes",JSON.stringify(notes));
+
+   save();
+   render();
+   alert("공연 기록과 감상 기록을 불러왔습니다.");
+  }catch(e){
+   alert("올바른 기록 파일이 아닙니다.");
+  }
+
+  event.target.value="";
+ };
+
+ reader.readAsText(file);
+}
+
+
+/* 시작 */
+localStorage.setItem("nargold_records",JSON.stringify(records));
+setupFilter();
+render();
+</script>
+</body>
+</html>
