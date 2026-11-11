@@ -407,6 +407,7 @@ th,td,.seat-record,.seat-bottom{border-color:#DCCBC6}
 
 /* YES24 STAGE 1관 1층 좌석 배치 */
 .mini-seat-map-scroll,.seat-map-scroll{width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding-bottom:3px}
+.mini-seat-map-layout{width:max-content;min-width:100%}
 .mini-seat-map{display:flex;justify-content:center;align-items:flex-start;gap:0;width:max-content;min-width:100%;margin:0 auto}
 .mini-seat-block{flex:0 0 auto;padding:7px 3px}
 .mini-seat-block.left{margin-right:12px}
@@ -422,6 +423,7 @@ th,td,.seat-record,.seat-bottom{border-color:#DCCBC6}
 .mini-n-row .mini-seat-gap{width:16px;min-width:16px}
 .seat-n-row{margin-top:3px}
 .seat-n-row .n-gap{width:22px}
+.seat-map-layout{width:max-content;min-width:100%}
 .seat-map{gap:0;justify-content:center;width:max-content;min-width:100%}
 .seat-block{flex:0 0 auto}
 .seat-block.left{margin-right:16px}
@@ -560,13 +562,15 @@ th,td,.seat-record,.seat-bottom{border-color:#DCCBC6}
    <span><span class="legend-square" style="background:#D9D5D2"></span>통로</span>
   </div>
   <div class="seat-map-scroll">
-   <div class="seat-map">
-    <div class="seat-block left"><h3>LEFT</h3><div id="leftSeats"></div></div>
-    <div class="seat-block center"><h3>CENTER</h3><div id="centerSeats"></div></div>
-    <div class="seat-block right"><h3>RIGHT</h3><div id="rightSeats"></div></div>
+   <div class="seat-map-layout">
+    <div class="seat-map">
+     <div class="seat-block left"><h3>LEFT</h3><div id="leftSeats"></div></div>
+     <div class="seat-block center"><h3>CENTER</h3><div id="centerSeats"></div></div>
+     <div class="seat-block right"><h3>RIGHT</h3><div id="rightSeats"></div></div>
+    </div>
+    <div id="nSeats" class="seat-n-row"></div>
    </div>
   </div>
-  <div id="nSeats" class="seat-n-row"></div>
   <div class="seat-bottom">
    <p>선택한 좌석</p>
    <div id="selectedSeatText">선택한 좌석이 없습니다.</div>
@@ -980,6 +984,8 @@ function renderSeatRecords(){
  stage.textContent="STAGE";
  const scroll=document.createElement("div");
  scroll.className="mini-seat-map-scroll";
+ const layout=document.createElement("div");
+ layout.className="mini-seat-map-layout";
  const map=document.createElement("div");
  map.className="mini-seat-map";
  map.append(
@@ -987,12 +993,14 @@ function renderSeatRecords(){
   createMiniSeatRows("center",seatCounts),
   createMiniSeatRows("right",seatCounts)
  );
- scroll.appendChild(map);
+ layout.appendChild(map);
  const nrow=createMiniNRow(seatCounts);
+ layout.appendChild(nrow);
+ scroll.appendChild(layout);
  const legend=document.createElement("div");
  legend.className="mini-legend";
  legend.textContent="체크 표시 옆 숫자는 해당 좌석에 앉은 횟수 · I열과 J열 사이 및 N열 16번과 17번 사이 통로";
- target.append(stage,scroll,nrow,legend);
+ target.append(stage,scroll,legend);
 }
 
 /* 좌석 선택 */
