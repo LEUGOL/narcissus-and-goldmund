@@ -848,7 +848,13 @@ function seatLayoutValue(block,row,local){
 }
 
 function seatDescription(id){
- const [row,number]=id.split("-");
+ const parts=id.split("-");
+
+ if(parts.length===3 && parts[0]==="2"){
+  return `2층 ${parts[1]}열 ${parts[2]}번`;
+ }
+
+ const [row,number]=parts;
  return `${row}열 ${number}번`;
 }
 const events = [
