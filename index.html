@@ -406,6 +406,7 @@ th,td,.seat-record,.seat-bottom{border-color:#DCCBC6}
 }
 
 /* YES24 STAGE 1관 1층 좌석 배치 */
+/* 1층은 A~M 13개 줄과 마지막 N줄을 합쳐 총 14개 줄 */
 .mini-seat-map-scroll,.seat-map-scroll{width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding-bottom:3px}
 .mini-seat-map-layout{width:max-content;min-width:100%}
 .mini-seat-map{display:flex;justify-content:center;align-items:flex-start;gap:0;width:max-content;min-width:100%;margin:0 auto}
@@ -418,8 +419,8 @@ th,td,.seat-record,.seat-bottom{border-color:#DCCBC6}
 .mini-seat-row.stagger-b,.seat-row.stagger-b{transform:translateX(-5px)}
 .mini-seat-row.align-c,.seat-row.align-c{justify-content:flex-start}
 .mini-seat-row.row-J,.seat-row.row-J{margin-top:17px}
-.mini-n-row,.seat-n-row{display:flex;align-items:center;justify-content:center;gap:2px;width:100%;max-width:none;margin:3px auto 0;white-space:nowrap;transform:none}
-.mini-n-row{padding:0 4px}
+.mini-n-row,.seat-n-row{display:flex;align-items:center;justify-content:center;gap:2px;width:max-content;min-width:0;max-width:100%;box-sizing:border-box;padding:9px 5px;margin:3px auto 0;white-space:nowrap;transform:none;background:#F0E3DF;border-radius:8px}
+.mini-n-row{padding:9px 5px}
 .mini-n-row .mini-seat-gap{width:16px;min-width:16px}
 .seat-n-row{margin-top:3px}
 .seat-n-row .n-gap{width:22px}
@@ -441,7 +442,7 @@ th,td,.seat-record,.seat-bottom{border-color:#DCCBC6}
  .mini-seat-block{padding-left:2px;padding-right:2px}
  .mini-seat-row.stagger-a,.seat-row.stagger-a{transform:translateX(3px)}
  .mini-seat-row.stagger-b,.seat-row.stagger-b{transform:translateX(-3px)}
- .mini-n-row,.seat-n-row{margin-left:auto;margin-right:auto;transform:none;gap:1px}
+ .mini-n-row,.seat-n-row{margin-left:auto;margin-right:auto;transform:none;gap:1px;padding:6px 3px;max-width:100%}
  .seat-n-row .seat{width:12px;min-width:12px;height:15px;font-size:7px;line-height:13px}
  .seat-n-row .row-label{width:11px}
  .mini-n-row .mini-seat-gap{width:10px;min-width:10px}
@@ -998,7 +999,6 @@ function renderSeatRecords(){
  layout.appendChild(nrow);
  const totalWidth=Math.max(map.scrollWidth,nrow.scrollWidth);
  layout.style.width=totalWidth+"px";
- nrow.style.width="100%";
  scroll.appendChild(layout);
  const legend=document.createElement("div");
  legend.className="mini-legend";
@@ -1071,7 +1071,6 @@ function openSeatMap(index){
  const nRowEl=document.getElementById("nSeats");
  if(seatLayoutEl&&seatMapEl&&nRowEl){
   seatLayoutEl.style.width=Math.max(seatMapEl.scrollWidth,nRowEl.scrollWidth)+"px";
-  nRowEl.style.width="100%";
  }
  updateSelectedSeatText();
 }
