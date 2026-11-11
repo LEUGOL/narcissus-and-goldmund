@@ -1246,10 +1246,10 @@ function makeNSeatRow(targetId){
   target.appendChild(makeSeat("N",n));
  }
 }
- function makeSecondFloorRows(){
-   const target=document.getElementById("secondFloorSeats");
- alert(target ? "2층 좌석 영역을 찾았어!" : "2층 좌석 영역을 찾지 못했어!");
+function makeSecondFloorRows(){
  const target=document.getElementById("secondFloorSeats");
+ if(!target)return;
+
  target.innerHTML="";
 
  const rows=[
