@@ -1316,10 +1316,13 @@ function updateSelectedSeatText(){
 function clearSeats(){
  temporarySeats=[];
  saveCurrentSeats();
+
  makeSeatRows("left","leftSeats");
  makeSeatRows("center","centerSeats");
  makeSeatRows("right","rightSeats");
  makeNSeatRow("nSeats");
+ makeSecondFloorRows();
+
  updateSelectedSeatText();
  renderSeatRecords();
 }
