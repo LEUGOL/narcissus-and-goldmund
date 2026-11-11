@@ -1261,6 +1261,17 @@ function openSeatMap(index){
 
  updateSelectedSeatText();
 }
+ function showFloor(floor){
+ const firstFloor=document.querySelector(".seat-map-layout");
+ const secondFloor=document.getElementById("secondFloorMap");
+
+ firstFloor.style.display=floor===1?"flex":"none";
+ secondFloor.style.display=floor===2?"block":"none";
+
+ document.querySelectorAll(".floor-tab").forEach((tab,index)=>{
+  tab.classList.toggle("active",index===floor-1);
+ });
+}
 function toggleSeat(id){
  temporarySeats=temporarySeats.includes(id)
   ?temporarySeats.filter(x=>x!==id)
