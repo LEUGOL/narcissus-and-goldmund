@@ -1289,11 +1289,15 @@ function toggleSeat(id){
  temporarySeats=temporarySeats.includes(id)
   ?temporarySeats.filter(x=>x!==id)
   :[...temporarySeats,id];
+
  saveCurrentSeats();
+
  makeSeatRows("left","leftSeats");
  makeSeatRows("center","centerSeats");
  makeSeatRows("right","rightSeats");
  makeNSeatRow("nSeats");
+ makeSecondFloorRows();
+
  updateSelectedSeatText();
  renderSeatRecords();
 }
