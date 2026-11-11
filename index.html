@@ -404,6 +404,49 @@ th,td,.seat-record,.seat-bottom{border-color:#DCCBC6}
  .rating-star.selected{
  color:#C69A42;
 }
+
+/* YES24 STAGE 1관 1층 좌석 배치 */
+.mini-seat-map-scroll,.seat-map-scroll{width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding-bottom:3px}
+.mini-seat-map{display:flex;justify-content:center;align-items:flex-start;gap:0;width:max-content;min-width:100%;margin:0 auto}
+.mini-seat-block{flex:0 0 auto;padding:7px 3px}
+.mini-seat-block.left{margin-right:12px}
+.mini-seat-block.center{margin-right:0}
+.mini-seat-block.right{margin-left:0}
+.mini-seat-row,.seat-row{justify-content:flex-start;white-space:nowrap}
+.mini-seat-row.stagger-a,.seat-row.stagger-a{transform:translateX(5px)}
+.mini-seat-row.stagger-b,.seat-row.stagger-b{transform:translateX(-5px)}
+.mini-seat-row.align-c,.seat-row.align-c{justify-content:flex-start}
+.mini-n-row,.seat-n-row{display:flex;align-items:center;justify-content:center;gap:2px;width:max-content;margin:3px auto 0;white-space:nowrap;transform:translateX(-44px)}
+.mini-n-row{padding:0 4px}
+.mini-n-row .mini-seat-gap{width:16px;min-width:16px}
+.seat-n-row{margin-top:3px}
+.seat-n-row .n-gap{width:22px}
+.seat-map{gap:0;justify-content:center;width:max-content;min-width:100%}
+.seat-block{flex:0 0 auto}
+.seat-block.left{margin-right:16px}
+.seat-block.center{margin-right:0}
+.seat-block.right{margin-left:0}
+.seat-row.stagger-a{transform:translateX(5px)}
+.seat-row.stagger-b{transform:translateX(-5px)}
+.seat-row.align-c{justify-content:flex-start}
+.mini-seat-row{min-height:14px}
+.mini-seat{flex-shrink:0}
+.seat{flex-shrink:0}
+@media(max-width:600px){
+ .mini-seat-map{justify-content:flex-start;min-width:max-content}
+ .mini-seat-block.left{margin-right:7px}
+ .mini-seat-block{padding-left:2px;padding-right:2px}
+ .mini-seat-row.stagger-a,.seat-row.stagger-a{transform:translateX(3px)}
+ .mini-seat-row.stagger-b,.seat-row.stagger-b{transform:translateX(-3px)}
+ .mini-n-row,.seat-n-row{transform:translateX(-26px);gap:1px}
+ .mini-n-row .mini-seat-gap{width:10px;min-width:10px}
+ .seat-n-row .n-gap{width:12px}
+ .seat-map{justify-content:flex-start;min-width:max-content}
+ .seat-block.left{margin-right:8px}
+ .seat-block{padding-left:1px;padding-right:1px}
+ .mini-seat-map-scroll,.seat-map-scroll{margin-left:0}
+}
+
 </style>
 </head>
 <body>
@@ -511,13 +554,16 @@ th,td,.seat-record,.seat-bottom{border-color:#DCCBC6}
   <div class="seat-legend">
    <span><span class="legend-square"></span>선택 가능</span>
    <span><span class="legend-square selected"></span>내 좌석</span>
-   <span><span class="legend-square" style="background:#D9D5D2"></span>기둥</span>
+   <span><span class="legend-square" style="background:#D9D5D2"></span>통로</span>
   </div>
-  <div class="seat-map">
-   <div class="seat-block"><h3>LEFT</h3><div id="leftSeats"></div></div>
-   <div class="seat-block"><h3>CENTER</h3><div id="centerSeats"></div></div>
-   <div class="seat-block"><h3>RIGHT</h3><div id="rightSeats"></div></div>
+  <div class="seat-map-scroll">
+   <div class="seat-map">
+    <div class="seat-block left"><h3>LEFT</h3><div id="leftSeats"></div></div>
+    <div class="seat-block center"><h3>CENTER</h3><div id="centerSeats"></div></div>
+    <div class="seat-block right"><h3>RIGHT</h3><div id="rightSeats"></div></div>
+   </div>
   </div>
+  <div id="nSeats" class="seat-n-row"></div>
   <div class="seat-bottom">
    <p>선택한 좌석</p>
    <div id="selectedSeatText">선택한 좌석이 없습니다.</div>
@@ -629,23 +675,24 @@ function blockName(block){
  return {left:"왼쪽",center:"가운데",right:"오른쪽"}[block];
 }
 
+const seatRows = ["A","B","C","D","E","F","G","H","I","J","K","L","M"];
 const seatLayout={
- left:[4,4,4,4,2,3,4,4,4,4,4,4,4,3],
- center:[11,10,11,10,11,10,11,11,11,11,11,11,10,8],
- right:[4,4,4,4,4,4,4,4,4,4,4,4,4,4]
+ left:   [4,4,4,4,4,4,4,4,4,4,4,4,4],
+ center: [11,12,11,12,11,12,11,12,12,12,12,12,12],
+ right:  [3,3,4,4,4,4,4,4,4,3,4,4,3]
 };
 
 function seatLayoutValue(block,row,local){
- const index=row-1;
- let n=local;
- if(block==="center"||block==="right")n+=seatLayout.left[index];
- if(block==="right")n+=seatLayout.center[index];
- return n;
+ const index=seatRows.indexOf(row);
+ if(index<0)return local;
+ if(block==="left")return local;
+ if(block==="center")return seatLayout.left[index]+local;
+ return seatLayout.left[index]+seatLayout.center[index]+local;
 }
 
 function seatDescription(id){
- const [block,row,local]=id.split("-");
- return `${blockName(block)} ${row}열 ${seatLayoutValue(block,Number(row),Number(local))}번`;
+ const [row,number]=id.split("-");
+ return `${row}열 ${number}번`;
 }
 const events = [
  {date:"2026-12-11",name:"스페셜 커튼콜"}
@@ -855,236 +902,189 @@ function setupFilter(){
 }
 
 /* MY SEATS 좌석표 만들기 */
-function createMiniSeat(block,row,local,seatCounts){
- const id=seatId(block,row,local);
+function seatId(row,number){
+ return `${row}-${number}`;
+}
+function createMiniSeat(row,number,seatCounts){
+ const id=seatId(row,number);
  const count=seatCounts[id]||0;
-
  const seat=document.createElement("div");
  seat.className="mini-seat"+(count>0?" selected":"");
  seat.textContent=count>0?`✓${count}`:"";
  seat.title=seatDescription(id)+(count>0?` · ${count}회`:"");
-
  return seat;
 }
-
 function createMiniPillar(){
  const p=document.createElement("span");
  p.className="mini-pillar";
  return p;
 }
-
 function createMiniGap(){
  const g=document.createElement("span");
  g.className="mini-seat-gap";
  return g;
 }
-
 function createMiniSeatRows(block,seatCounts){
  const wrapper=document.createElement("div");
- wrapper.className="mini-seat-block";
-
+ wrapper.className="mini-seat-block "+block;
  const heading=document.createElement("h4");
  heading.textContent=block==="left"?"LEFT":block==="center"?"CENTER":"RIGHT";
  wrapper.appendChild(heading);
-
- seatLayout[block].forEach((count,index)=>{
-  const rowNumber=index+1;
+ seatRows.forEach((rowName,index)=>{
   const row=document.createElement("div");
-  row.className="mini-seat-row";
-
+  row.className="mini-seat-row row-"+rowName;
+  if(block==="center")row.classList.add(index%2===0?"stagger-a":"stagger-b");
+  if(block==="right"&&["A","B","J","M"].includes(rowName))row.classList.add("align-c");
   const label=document.createElement("span");
   label.className="mini-row-label";
-  label.textContent=rowNumber;
+  label.textContent=rowName;
   row.appendChild(label);
-
-  if(block==="left"&&rowNumber===5){
-   row.append(createMiniPillar(),createMiniPillar());
-  }
-  if(block==="left"&&rowNumber===6){
-   row.appendChild(createMiniPillar());
-  }
-  if(block==="center"&&rowNumber===14){
-   for(let i=0;i<4;i++)row.appendChild(createMiniGap());
-  }
-
+  const count=seatLayout[block][index];
   for(let n=1;n<=count;n++){
-   row.appendChild(createMiniSeat(block,rowNumber,n,seatCounts));
+   row.appendChild(createMiniSeat(rowName,seatLayoutValue(block,rowName,n),seatCounts));
   }
-
   wrapper.appendChild(row);
  });
-
  return wrapper;
 }
-
+function createMiniNRow(seatCounts){
+ const wrap=document.createElement("div");
+ wrap.className="mini-n-row";
+ const label=document.createElement("span");
+ label.className="mini-row-label";
+ label.textContent="N";
+ wrap.appendChild(label);
+ for(let n=1;n<=21;n++){
+  if(n===17){
+   const gap=document.createElement("span");
+   gap.className="mini-seat-gap n-gap";
+   wrap.appendChild(gap);
+  }
+  wrap.appendChild(createMiniSeat("N",n,seatCounts));
+ }
+ return wrap;
+}
 function renderSeatRecords(){
  const target=document.getElementById("seatRecordList");
  target.innerHTML="";
-
- // 공연별 좌석 선택 횟수 합산
  const seatCounts={};
-
  records.forEach(r=>{
   const seats=Array.isArray(r.seatSelections)?r.seatSelections:[];
-
-  seats.forEach(id=>{
-   seatCounts[id]=(seatCounts[id]||0)+1;
-  });
+  seats.forEach(id=>{seatCounts[id]=(seatCounts[id]||0)+1;});
  });
-
- // 무대 표시
  const stage=document.createElement("div");
  stage.className="mini-stage";
  stage.textContent="STAGE";
-
- // 전체 좌석표 하나 만들기
+ const scroll=document.createElement("div");
+ scroll.className="mini-seat-map-scroll";
  const map=document.createElement("div");
  map.className="mini-seat-map";
-
  map.append(
   createMiniSeatRows("left",seatCounts),
   createMiniSeatRows("center",seatCounts),
   createMiniSeatRows("right",seatCounts)
  );
-
- // 안내 문구
+ scroll.appendChild(map);
+ const nrow=createMiniNRow(seatCounts);
  const legend=document.createElement("div");
  legend.className="mini-legend";
- legend.textContent="체크 표시 옆 숫자는 해당 좌석에 앉은 횟수";
-
- target.append(stage,map,legend);
+ legend.textContent="체크 표시 옆 숫자는 해당 좌석에 앉은 횟수 · N열은 16번과 17번 사이 통로";
+ target.append(stage,scroll,nrow,legend);
 }
 
 /* 좌석 선택 */
 let currentRecordIndex=null;
 let temporarySeats=[];
-
-function seatId(block,row,local){
- return `${block}-${row}-${local}`;
-}
-
-function globalSeatNumber(block,row,local){
- return seatLayoutValue(block,row,local);
-}
-
-function makeSeat(block,row,local){
- const id=seatId(block,row,local);
+function makeSeat(row,number){
+ const id=seatId(row,number);
  const selected=temporarySeats.includes(id);
-
  const b=document.createElement("button");
  b.className="seat"+(selected?" selected":"");
- b.textContent=selected?"✓":globalSeatNumber(block,row,local);
+ b.textContent=selected?"✓":number;
  b.type="button";
- b.title=`${row}열 ${globalSeatNumber(block,row,local)}번`;
+ b.title=seatDescription(id);
  b.addEventListener("click",()=>toggleSeat(id));
-
  return b;
 }
-
 function makeSeatRows(block,targetId){
  const target=document.getElementById(targetId);
  target.innerHTML="";
-
- seatLayout[block].forEach((count,index)=>{
-  const rowNumber=index+1;
+ seatRows.forEach((rowName,index)=>{
   const row=document.createElement("div");
-  row.className="seat-row";
-
+  row.className="seat-row row-"+rowName;
+  if(block==="center")row.classList.add(index%2===0?"stagger-a":"stagger-b");
+  if(block==="right"&&["A","B","J","M"].includes(rowName))row.classList.add("align-c");
   const label=document.createElement("span");
   label.className="row-label";
-  label.textContent=rowNumber;
+  label.textContent=rowName;
   row.appendChild(label);
-
-  if(block==="left"&&rowNumber===5){
-   row.append(makePillar(),makePillar());
-  }
-  if(block==="left"&&rowNumber===6){
-   row.appendChild(makePillar());
-  }
-  if(block==="center"&&rowNumber===14){
-   for(let i=0;i<4;i++)row.appendChild(makeGap());
-  }
-
+  const count=seatLayout[block][index];
   for(let n=1;n<=count;n++){
-   row.appendChild(makeSeat(block,rowNumber,n));
+   row.appendChild(makeSeat(rowName,seatLayoutValue(block,rowName,n)));
   }
-
   target.appendChild(row);
  });
 }
-
-function makePillar(){
- const p=document.createElement("span");
- p.className="pillar";
- p.title="기둥";
- return p;
+function makeNSeatRow(targetId){
+ const target=document.getElementById(targetId);
+ target.innerHTML="";
+ const label=document.createElement("span");
+ label.className="row-label";
+ label.textContent="N";
+ target.appendChild(label);
+ for(let n=1;n<=21;n++){
+  if(n===17){
+   const gap=document.createElement("span");
+   gap.className="seat-gap n-gap";
+   gap.title="통로";
+   target.appendChild(gap);
+  }
+  target.appendChild(makeSeat("N",n));
+ }
 }
-
-function makeGap(){
- const g=document.createElement("span");
- g.className="seat-gap";
- return g;
-}
-
 function openSeatMap(index){
  currentRecordIndex=index;
  temporarySeats=[...(records[index].seatSelections||[])];
-
  const r=records[index];
- document.getElementById("seatPerformance").textContent=
-  `${formatDate(r.date)} ${r.time||""}`;
-
+ document.getElementById("seatPerformance").textContent=`${formatDate(r.date)} ${r.time||""}`;
  document.getElementById("seatModal").classList.add("open");
-
  makeSeatRows("left","leftSeats");
  makeSeatRows("center","centerSeats");
  makeSeatRows("right","rightSeats");
-
+ makeNSeatRow("nSeats");
  updateSelectedSeatText();
 }
-
 function toggleSeat(id){
  temporarySeats=temporarySeats.includes(id)
   ?temporarySeats.filter(x=>x!==id)
   :[...temporarySeats,id];
-
- /* 누를 때마다 즉시 저장 */
  saveCurrentSeats();
-
  makeSeatRows("left","leftSeats");
  makeSeatRows("center","centerSeats");
  makeSeatRows("right","rightSeats");
-
+ makeNSeatRow("nSeats");
  updateSelectedSeatText();
  renderSeatRecords();
 }
-
 function saveCurrentSeats(){
  if(currentRecordIndex===null)return;
-
  records[currentRecordIndex].seatSelections=[...temporarySeats];
- records[currentRecordIndex].seat=
-  temporarySeats.map(seatDescription).join(", ");
-
+ records[currentRecordIndex].seat=temporarySeats.map(seatDescription).join(", ");
  save();
 }
-
 function updateSelectedSeatText(){
  const target=document.getElementById("selectedSeatText");
-
  target.textContent=temporarySeats.length
   ?temporarySeats.map(seatDescription).join(" / ")
   :"선택한 좌석이 없습니다.";
 }
-
 function clearSeats(){
  temporarySeats=[];
  saveCurrentSeats();
-
  makeSeatRows("left","leftSeats");
  makeSeatRows("center","centerSeats");
  makeSeatRows("right","rightSeats");
-
+ makeNSeatRow("nSeats");
  updateSelectedSeatText();
  renderSeatRecords();
 }
