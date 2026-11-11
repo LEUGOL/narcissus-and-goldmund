@@ -416,7 +416,8 @@ th,td,.seat-record,.seat-bottom{border-color:#DCCBC6}
 .mini-seat-row.stagger-a,.seat-row.stagger-a{transform:translateX(5px)}
 .mini-seat-row.stagger-b,.seat-row.stagger-b{transform:translateX(-5px)}
 .mini-seat-row.align-c,.seat-row.align-c{justify-content:flex-start}
-.mini-n-row,.seat-n-row{display:flex;align-items:center;justify-content:center;gap:2px;width:max-content;margin:3px auto 0;white-space:nowrap;transform:translateX(-44px)}
+.mini-seat-row.row-J,.seat-row.row-J{margin-top:17px}
+.mini-n-row,.seat-n-row{display:flex;align-items:center;justify-content:center;gap:2px;width:max-content;max-width:100%;margin:3px auto 0;white-space:nowrap;transform:none}
 .mini-n-row{padding:0 4px}
 .mini-n-row .mini-seat-gap{width:16px;min-width:16px}
 .seat-n-row{margin-top:3px}
@@ -438,7 +439,9 @@ th,td,.seat-record,.seat-bottom{border-color:#DCCBC6}
  .mini-seat-block{padding-left:2px;padding-right:2px}
  .mini-seat-row.stagger-a,.seat-row.stagger-a{transform:translateX(3px)}
  .mini-seat-row.stagger-b,.seat-row.stagger-b{transform:translateX(-3px)}
- .mini-n-row,.seat-n-row{transform:translateX(-26px);gap:1px}
+ .mini-n-row,.seat-n-row{margin-left:auto;margin-right:auto;transform:none;gap:1px}
+ .seat-n-row .seat{width:12px;min-width:12px;height:15px;font-size:7px;line-height:13px}
+ .seat-n-row .row-label{width:11px}
  .mini-n-row .mini-seat-gap{width:10px;min-width:10px}
  .seat-n-row .n-gap{width:12px}
  .seat-map{justify-content:flex-start;min-width:max-content}
@@ -988,7 +991,7 @@ function renderSeatRecords(){
  const nrow=createMiniNRow(seatCounts);
  const legend=document.createElement("div");
  legend.className="mini-legend";
- legend.textContent="체크 표시 옆 숫자는 해당 좌석에 앉은 횟수 · N열은 16번과 17번 사이 통로";
+ legend.textContent="체크 표시 옆 숫자는 해당 좌석에 앉은 횟수 · I열과 J열 사이 및 N열 16번과 17번 사이 통로";
  target.append(stage,scroll,nrow,legend);
 }
 
