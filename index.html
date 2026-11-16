@@ -1208,7 +1208,7 @@ function renderActorCounts(){
 
 function setupFilter(){
  const select=document.getElementById("actorFilter");
- const names=[...cast.dazai,...cast.ango,...cast.shizuko];
+const names=[...cast.dazai,...cast.ango];
  select.innerHTML='<option value="">전체 배우 보기</option>'+names.map(n=>`<option value="${n}">${n}</option>`).join("");
 }
 
