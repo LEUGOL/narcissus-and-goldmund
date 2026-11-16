@@ -1195,35 +1195,89 @@ function createMiniNRow(seatCounts){
 function renderSeatRecords(){
  const target=document.getElementById("seatRecordList");
  target.innerHTML="";
+
  const seatCounts={};
+
  records.forEach(r=>{
   const seats=Array.isArray(r.seatSelections)?r.seatSelections:[];
-  seats.forEach(id=>{seatCounts[id]=(seatCounts[id]||0)+1;});
+  seats.forEach(id=>{
+   seatCounts[id]=(seatCounts[id]||0)+1;
+  });
  });
+
  const stage=document.createElement("div");
  stage.className="mini-stage";
  stage.textContent="STAGE";
+
  const scroll=document.createElement("div");
  scroll.className="mini-seat-map-scroll";
+
  const layout=document.createElement("div");
  layout.className="mini-seat-map-layout";
+
  const map=document.createElement("div");
  map.className="mini-seat-map";
+
  map.append(
   createMiniSeatRows("left",seatCounts),
   createMiniSeatRows("center",seatCounts),
   createMiniSeatRows("right",seatCounts)
  );
+
  layout.appendChild(map);
+
  const nrow=createMiniNRow(seatCounts);
  layout.appendChild(nrow);
+
+ // 2층 좌석 표시
+ const secondFloor=document.createElement("div");
+ secondFloor.className="mini-second-floor";
+
+ const secondRows=[
+  {name:"O",count:20,offset:2},
+  {name:"P",count:21,offset:1},
+  {name:"Q",count:16,offset:2},
+  {name:"R",count:16,offset:2},
+  {name:"S",count:16,offset:2},
+  {name:"T",count:18,offset:0}
+ ];
+
+ secondRows.forEach(item=>{
+  const row=document.createElement("div");
+  row.className="mini-second-floor-row";
+
+  const label=document.createElement("span");
+  label.className="mini-row-label";
+  label.textContent=item.name;
+  row.appendChild(label);
+
+  for(let i=0;i<item.offset;i++){
+   const gap=document.createElement("span");
+   gap.className="mini-seat-gap";
+   row.appendChild(gap);
+  }
+
+  for(let n=1;n<=item.count;n++){
+   const id=`2-${item.name}-${n}`;
+   const seat=document.createElement("span");
+   seat.className="mini-seat";
+   seat.textContent=seatCounts[id] ? seatCounts[id] : "";
+   if(seatCounts[id]) seat.classList.add("selected");
+   row.appendChild(seat);
+  }
+
+  secondFloor.appendChild(row);
+ });
+
+ layout.appendChild(secondFloor);
  scroll.appendChild(layout);
+
  const legend=document.createElement("div");
  legend.className="mini-legend";
- legend.textContent="체크 표시 옆 숫자는 해당 좌석에 앉은 횟수 · I열과 J열 사이 및 N열 16번과 17번 사이 통로";
+ legend.textContent="체크 표시 옆 숫자는 해당 좌석에 앉은 횟수 · 1층과 2층 좌석 모두 표시";
+
  target.append(stage,scroll,legend);
 }
-
 /* 좌석 선택 */
 let currentRecordIndex=null;
 let temporarySeats=[];
