@@ -1548,8 +1548,7 @@ function renderNotes(){
   const option=document.createElement("option");
   option.value=index;
   option.textContent=
- `${formatDate(r.date)} ${r.time||""} · 배역 1 ${r.dazai||"-"} / 배역 2 ${r.ango||"-"} / 배역 3 ${r.shizuko||"-"}`;
-
+ `${formatDate(r.date)} ${r.time||""} · 나르치스 ${r.dazai||"-"} / 골드문트 ${r.ango||"-"}`;
   select.appendChild(option);
  });
 
@@ -1576,7 +1575,7 @@ function renderNotes(){
 
   item.innerHTML=`
    <h3>${formatDate(r.date)} ${r.time||""}</h3>
-   <p>배역 1 ${r.dazai||"-"} / 배역 2 ${r.ango||"-"} / 배역 3 ${r.shizuko||"-"}</p>
+ <p>나르치스 ${r.dazai||"-"} / 골드문트 ${r.ango||"-"}</p>
    <p class="note-stars">${"★".repeat(score)}${"☆".repeat(5-score)}</p>
    ${note?.scene?`<p><strong>기억하고 싶은 장면</strong><br>${note.scene}</p>`:""}
    ${note?.memo?`<p><strong>오늘의 감상</strong><br>${note.memo}</p>`:""}
