@@ -905,7 +905,7 @@ const newSchedule=[]; // 실제 공연 일정이 확정되면 여기에 추가�
 newSchedule.forEach(item=>{
  const existing=records.find(r=>r.date===item.date&&r.time===item.time);
  if(existing){
-  ["dazai","ango","shizuko"].forEach(key=>{if(!existing[key])existing[key]=item[key];});
+["dazai","ango"].forEach(key=>{if(!existing[key])existing[key]=item[key];});
  }else{
   records.push({...item,watched:false,seat:"",seatSelections:[]});
  }
@@ -1039,8 +1039,7 @@ date.innerHTML=`
   const ango=document.createElement("td");
   ango.textContent=r.ango||"-";
 
-  const shizuko=document.createElement("td");
-  shizuko.textContent=r.shizuko||"-";
+ 
 
   const watched=document.createElement("td");
 
@@ -1062,7 +1061,7 @@ date.innerHTML=`
   seatButton.addEventListener("click",()=>openSeatMap(i));
   seat.appendChild(seatButton);
 
-[date,time,dazai,ango,shizuko,watched,seat]
+[date,time,dazai,ango,watched,seat]
  .forEach(td=>tr.appendChild(td));
 
   body.appendChild(tr);
@@ -1071,7 +1070,7 @@ date.innerHTML=`
  if(!shown){
   const tr=document.createElement("tr");
   const td=document.createElement("td");
-  td.colSpan=8;
+  td.colSpan=6;
   td.className="empty-message";
   td.textContent="표시할 공연 일정이 없습니다.";
   tr.appendChild(td);
