@@ -591,6 +591,46 @@ min-width:0;
   width: 26px;
   height: 26px;
 }
+ /* 층 선택 버튼 */
+.floor-tabs{
+ display:flex;
+ justify-content:center;
+ gap:8px;
+ margin:10px 0;
+}
+
+.floor-tab{
+ border:1px solid #B08A45;
+ background:#FFF9F5;
+ color:#34483F;
+ border-radius:20px;
+ padding:7px 20px;
+ cursor:pointer;
+}
+
+.floor-tab.active{
+ background:#183B32;
+ color:white;
+}
+
+/* 2층 좌석 모바일 크기 */
+@media(max-width:600px){
+ .second-floor-row{
+  gap:2px;
+ }
+
+ .second-floor-row .row-label{
+  width:16px;
+  flex-basis:16px;
+ }
+
+ .second-floor-row .seat{
+  flex:0 0 20px;
+  width:20px;
+  height:22px;
+  font-size:9px;
+ }
+}
 </style>
  /* 층 선택 버튼 */
 .floor-tabs {
