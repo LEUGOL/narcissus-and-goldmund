@@ -7,44 +7,46 @@
  <meta name="theme-color" content="#183B32">
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:12px 8px;background:#F5F1E6;color:#26352F;font-family:Arial,sans-serif;font-size:15px}
+
+body{margin:0;padding:12px 8px;background:#E8EEE7;color:#263B32;font-family:Arial,sans-serif;font-size:15px}
 .container{width:100%;max-width:1000px;margin:auto}
-header{background:#183B32;color:#F5F1E6;padding:24px 20px;border-radius:10px;margin-bottom:10px}
+header{background:#183B32;color:#F2F3E9;padding:24px 20px;border-radius:10px;margin-bottom:10px}
 header h1{margin:0 0 7px;font-size:24px;letter-spacing:2px}
 header p{margin:0;font-size:14px;opacity:.85}
-section{background:#FBF8EF;border:1px solid #D8D8C8;border-radius:10px;padding:14px;margin-bottom:10px}
+section{background:#F5F7F1;border:1px solid #D1DCCF;border-radius:10px;padding:14px;margin-bottom:10px}
 h2{color:#315C4B;margin:0 0 12px;font-size:18px}
 .cast-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.cast-card{background:#E2E8DC;padding:11px;border-radius:8px}
+.cast-card{background:#DDE8DC;padding:11px;border-radius:8px}
 .cast-card h3{margin:0 0 7px;color:#183B32;font-size:16px}
 .cast-card p{margin:0;line-height:1.6;font-size:14px;white-space:nowrap}
 .stats{display:flex;gap:8px}
-.stat{flex:1;background:#E2E8DC;padding:11px;border-radius:8px;font-size:12px}
+.stat{flex:1;background:#DDE8DC;padding:11px;border-radius:8px;font-size:12px}
 .stat strong{display:block;font-size:27px;color:#315C4B;margin-bottom:2px}
 .actions{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 button,select{font:inherit;border:0;border-radius:6px;padding:10px 12px}
-button{background:#B08A45;color:white;cursor:pointer}
-button.secondary{background:#34483F}
+button{background:#A58B55;color:white;cursor:pointer}
+button.secondary{background:#496B58}
 .actions button{font-size:12px}
-#actorFilter{width:100%;margin-bottom:10px;border:1px solid #C9D2C6;background:#FBF8EF;color:#26352F}
+#actorFilter{width:100%;margin-bottom:10px;border:1px solid #C1D0C0;background:#F5F7F1;color:#263B32}
 .table-wrap{width:100%}
 table{width:100%;border-collapse:collapse;table-layout:fixed}
-th,td{padding:9px 5px;border-bottom:1px solid #D8D8C8;text-align:center;vertical-align:middle}
-th{background:#E2E8DC;color:#183B32;font-size:12px}
+th,td{padding:9px 5px;border-bottom:1px solid #D1DCCF;text-align:center;vertical-align:middle}
+th{background:#DDE8DC;color:#183B32;font-size:12px}
 td{font-size:13px;overflow-wrap:anywhere}
 td.cast-cell{text-align:left;line-height:1.65}
 .cast-cell span{display:inline-block;margin-right:7px;white-space:nowrap}
-.cast-role{display:inline-block!important;color:#7C897C;font-size:10px;margin-right:4px}
+.cast-role{display:inline-block!important;color:#718474;font-size:10px;margin-right:4px}
 .date-main{font-weight:bold;color:#315C4B;font-size:14px}
- .event-label{
+.event-label{
  display:block;
  margin-top:3px;
- color:#B08A45;
+ color:#A58B55;
  font-size:10px;
  font-weight:bold;
  line-height:1.3;
  white-space:normal;
 }
+
 .time-main{font-variant-numeric:tabular-nums;white-space:nowrap}
 .watched-check{width:19px;height:19px;accent-color:#B08A45}
 .seat-button{background:#34483F;font-size:11px;padding:7px 8px;white-space:nowrap}
