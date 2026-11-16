@@ -631,6 +631,85 @@ min-width:0;
   font-size:9px;
  }
 }
+ @media(max-width:600px){
+ .second-floor-row{
+  gap:2px;
+ }
+
+ .second-floor-row .row-label{
+  width:16px;
+  flex-basis:16px;
+ }
+
+ .second-floor-row .seat{
+  flex:0 0 20px;
+  width:20px;
+  height:22px;
+  font-size:9px;
+ }
+}
+ /* MY SEATS 2층 좌석 모양 */
+.mini-second-floor{
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ gap:3px;
+ width:max-content;
+ margin-top:10px;
+ padding-top:8px;
+ border-top:1px solid #DCCBC6;
+ align-self:center;
+}
+
+.mini-second-floor-row{
+ display:flex;
+ align-items:center;
+ gap:2px;
+ min-height:14px;
+ white-space:nowrap;
+}
+
+.mini-second-floor-row .mini-row-label{
+ width:12px;
+ flex:0 0 12px;
+}
+
+.mini-second-floor-row .mini-seat-gap{
+ width:11px;
+ height:13px;
+ flex:0 0 11px;
+}
+
+.mini-second-floor-row .mini-seat{
+ display:block;
+ width:11px;
+ height:13px;
+ min-width:11px;
+ flex:0 0 11px;
+ border:1px solid #CDBBB7;
+ border-radius:2px;
+ background:#FFF9F5;
+}
+
+@media(max-width:600px){
+ .mini-second-floor-row .mini-row-label{
+  width:10px;
+  flex-basis:10px;
+ }
+
+ .mini-second-floor-row .mini-seat-gap{
+  width:10px;
+  flex-basis:10px;
+  height:12px;
+ }
+
+ .mini-second-floor-row .mini-seat{
+  width:10px;
+  min-width:10px;
+  flex-basis:10px;
+  height:12px;
+ }
+}
 </style>
  /* 층 선택 버튼 */
 .floor-tabs {
