@@ -1341,12 +1341,14 @@ function openSeatMap(index){
 
  updateSelectedSeatText();
 }
- function showFloor(floor){
+function showFloor(floor){
  const firstFloor=document.getElementById("firstFloorMap");
  const secondFloor=document.getElementById("secondFloorMap");
 
+ if(!firstFloor || !secondFloor)return;
+
  firstFloor.style.display=floor===1?"flex":"none";
- secondFloor.style.display=floor===2?"block":"none";
+ secondFloor.style.display=floor===2?"flex":"none";
 
  document.querySelectorAll(".floor-tab").forEach((tab,index)=>{
   tab.classList.toggle("active",index===floor-1);
