@@ -23,6 +23,23 @@ section{
 }
 h2{color:#315C4B;margin:0 0 12px;font-size:18px}
 .cast-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ @media(max-width:600px){
+  .cast-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+  }
+
+  .cast-card{
+    min-width:0;
+    padding:10px 7px;
+  }
+
+  .cast-card p{
+    white-space:normal;
+    overflow-wrap:break-word;
+    font-size:13px;
+  }
+}
 .cast-card{background:#DDE8DC !important;padding:11px;border-radius:8px}
 .cast-card h3{margin:0 0 7px;color:#183B32;font-size:16px}
 .cast-card p{margin:0;line-height:1.6;font-size:14px;white-space:nowrap}
