@@ -1000,7 +1000,14 @@ try{
  ratings=JSON.parse(localStorage.getItem("nargold_ratings")||"{}");
 }catch(e){ratings={};}
  
-const newSchedule=[]; // 실제 공연 일정이 확정되면 여기에 추가합니다.
+const newSchedule = [
+  {
+    date: "2026-11-25",
+    time: "19:30",
+    dazai: "안재영",
+    ango: "강찬"
+  }
+];
 
 newSchedule.forEach(item=>{
  const existing=records.find(r=>r.date===item.date&&r.time===item.time);
