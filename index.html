@@ -183,7 +183,29 @@ border:1px solid #C1D0C0;
 .pillar{border:1px dashed #AAB9A8;border-radius:3px;background:#CBD5CA}
 .seat-bottom{margin-top:16px;padding-top:13px;border-top:1px solid #D1DCCF}
 #selectedSeatText{color:#315C4B;font-weight:bold;font-size:13px;line-height:1.8;overflow-wrap:anywhere;margin:8px 0 12px}
-.seat-bottom button{margin:3px}
+.seat-bottom{
+  margin-top:16px;
+  padding-top:13px;
+  border-top:1px solid #D1DCCF;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+
+#selectedSeatText{
+  color:#315C4B;
+  font-weight:bold;
+  font-size:13px;
+  line-height:1.8;
+  overflow-wrap:anywhere;
+  margin:8px 0 12px;
+}
+
+.seat-bottom button{
+  display:block;
+  margin:3px 0 0 0;
+  align-self:flex-start;
+}
 }
 
 
