@@ -67,7 +67,25 @@ button.secondary{background:#496B58}
 table{width:100%;border-collapse:collapse;table-layout:fixed}
 th,td{padding:9px 5px;border-bottom:1px solid #D1DCCF;text-align:center;vertical-align:middle}
 th{background:#DDE8DC;color:#183B32;font-size:12px}
-td{font-size:13px;overflow-wrap:anywhere}
+td{
+  font-size:13px;
+  overflow-wrap:anywhere;
+}
+
+/* 날짜 열은 글자 중간에서 줄바꿈하지 않기 */
+td:first-child{
+  white-space:nowrap !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+}
+
+td:first-child .date-main{
+  display:inline-block !important;
+  width:max-content !important;
+  white-space:nowrap !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+}
 td.cast-cell{text-align:left;line-height:1.65}
 .cast-cell span{display:inline-block;margin-right:7px;white-space:nowrap}
 .cast-role{display:inline-block!important;color:#718474;font-size:10px;margin-right:4px}
