@@ -253,7 +253,8 @@ td:first-child{
 .date-main{
   display:inline-block;
   font-size:11px;
-  white-space:nowrap;
+  white-space:nowrap !important;
+  word-break:keep-all;
 }
 .time-main{
  font-size:11px;
@@ -276,7 +277,6 @@ td:first-child{
  th:nth-child(4){width:17%}
  th:nth-child(5){width:17%}
  th:nth-child(6){width:8%}
- th:nth-child(7){width:13%}
  .seat-record{padding:10px 0 13px}
  .seat-record-date{font-size:12px}
  .seat-record-cast{font-size:10px}
@@ -1191,7 +1191,7 @@ function render(){
   const dayEvents=events.filter(event=>event.date===r.date);
 
 date.innerHTML=`
- <span class="date-main">${formatDate(r.date)}</span>
+ <span class="date-main">${formatDate(r.date).replace(" (","&nbsp;(")}</span>
  ${dayEvents.map(event=>`<span class="event-label">${event.name}</span>`).join("")}
 `;
 
