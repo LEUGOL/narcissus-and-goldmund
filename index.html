@@ -246,8 +246,16 @@ td:nth-child(4){
 }
 
 td:first-child{
-  white-space:nowrap;
-  overflow-wrap:normal;
+  white-space:nowrap !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+}
+
+td:first-child .date-main{
+  display:inline !important;
+  white-space:nowrap !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
 }
 
 .date-main{
