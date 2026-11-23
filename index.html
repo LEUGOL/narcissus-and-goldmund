@@ -662,6 +662,7 @@ min-width:0;
   width: 26px;
   height: 26px;
 }
+
  </style>
  <style>
  /* 층 선택 버튼 */
@@ -856,6 +857,36 @@ th,
 .notes-editor select,
 .notes-editor textarea{
   background:rgba(245,247,241,0.58) !important;
+}
+  /* 모바일 좌석 선택창 너비 수정 */
+@media(max-width:600px){
+
+  .seat-window{
+    width:100%;
+    min-width:0;
+    max-width:100%;
+  }
+
+  .seat-map-scroll{
+    display:block;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    overflow-x:auto;
+    overflow-y:hidden;
+  }
+
+  .seat-map-layout{
+    width:max-content;
+    margin-left:0;
+    margin-right:0;
+  }
+
+  .second-floor-map{
+    margin-left:0;
+    margin-right:0;
+  }
+
 }
 </style>
 
