@@ -1143,7 +1143,7 @@ function formatDate(value){
  const p=value.split("-");
  if(p.length!==3)return value;
  const d=new Date(Number(p[0]),Number(p[1])-1,Number(p[2]));
- return `${Number(p[1])}.${Number(p[2])} (${["일","월","화","수","목","금","토"][d.getDay()]})`;
+return `${Number(p[1])}.${Number(p[2])}\u00A0(${["일","월","화","수","목","금","토"][d.getDay()]})`;
 }
 
 function blockName(block){
