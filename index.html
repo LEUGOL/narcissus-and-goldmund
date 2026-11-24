@@ -1101,7 +1101,7 @@ records.push({...item,watched:false,seat:"",seatSelections:[]});
 records.forEach(r=>{if(!Array.isArray(r.seatSelections))r.seatSelections=[];});
 
 function save(){
-localStorage.setItem("nargold_records",JSON.stringify(records));
+localStorage.setItem("mb_records",JSON.stringify(records));
 updateStats();
 }
 function saveRatings(){
@@ -1836,6 +1836,7 @@ localStorage.setItem("mb_notes",JSON.stringify(notes));
 
 save();
 render();
+renderSeatRecords();
 alert("공연 기록과 감상 기록을 불러왔습니다.");
 }catch(e){
 alert("올바른 기록 파일이 아닙니다.");
@@ -1849,9 +1850,9 @@ reader.readAsText(file);
 
 
 /* 시작 */
-localStorage.setItem("nargold_records",JSON.stringify(records));
 setupFilter();
 render();
+renderSeatRecords();
 </script>
 
 <div class="actions" style="justify-content:flex-start; margin:14px 0 25px;">
